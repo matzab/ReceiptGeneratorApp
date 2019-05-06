@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QRCodeGeneratorApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/QRCodeGeneratorApp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QRCodeGeneratorApp/hkr/controllers/MainViewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QRCodeGeneratorApp/hkr/controllers/MainViewController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QRCodeGeneratorApp/hkr/model/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QRCodeGeneratorApp/hkr/model/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QRCodeGeneratorApp/hkr/views/mainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QRCodeGeneratorApp/hkr/views/mainView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/products.txt" beforeDir="false" afterPath="$PROJECT_DIR$/products.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hkr/controllers/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hkr/controllers/MainViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hkr/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hkr/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hkr/views/mainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/hkr/views/mainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hello-world.png" beforeDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -150,7 +142,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hkr/model/Product.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-309">
+            <state relative-caret-position="-265">
               <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -323,7 +315,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557181556533" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557181731026" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/school/2nd year/Operating system/Exercise/Threads" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -439,12 +431,12 @@
       <workItem from="1556643370226" duration="5078000" />
       <workItem from="1556649092416" duration="11530000" />
       <workItem from="1556789530939" duration="189000" />
-      <workItem from="1557070711650" duration="19062000" />
+      <workItem from="1557070711650" duration="19676000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37161000" />
+    <option name="totallyTimeSpent" value="37775000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -469,7 +461,7 @@
       <window_info anchor="bottom" id="Dependency Viewer" weight="0.32923076" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3276923" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21692307" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.21692307" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -596,7 +588,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hkr/model/Product.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-309">
+        <state relative-caret-position="-265">
           <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
