@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="464.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hkr.controllers.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="538.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hkr.controllers.MainViewController">
    <children>
       <Button layoutX="253.0" layoutY="93.0" mnemonicParsing="false" onAction="#pressButton" prefHeight="25.0" prefWidth="0.0" text="+">
          <font>
@@ -31,12 +31,15 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fx:id="qrCodeImageView" fitHeight="175.0" fitWidth="175.0" layoutX="325.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="qrCodeImageView" fitHeight="240.0" fitWidth="320.0" layoutX="37.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true" />
       <TableView fx:id="productTableView" layoutX="325.0" layoutY="58.0" prefHeight="157.0" prefWidth="221.0">
         <columns>
           <TableColumn fx:id="nameTableCol" prefWidth="138.0" text="Product name" />
           <TableColumn fx:id="priceTableCol" prefWidth="83.0" text="Price" />
         </columns>
       </TableView>
+      <Button layoutX="379.0" layoutY="284.0" mnemonicParsing="false" onAction="#pressButton" text="start" />
+      <Button layoutX="379.0" layoutY="316.0" mnemonicParsing="false" onAction="#pressButton" text="stop" />
+      <Label layoutX="380.0" layoutY="253.0" text="Video capture" />
    </children>
 </AnchorPane>

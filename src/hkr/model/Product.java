@@ -11,14 +11,13 @@ package hkr.model;
 
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.fxml.FXML;
 
 public class Product {
     private SimpleStringProperty name;
     private SimpleFloatProperty price;
 
 
-    public Product(String name, float price){
+    public Product(String name, float price) {
         this.name = new SimpleStringProperty(name);
         this.price = new SimpleFloatProperty(price);
     }
@@ -49,6 +48,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("%s, %.2f", getName(), getPrice());
+        return getName() + ", " + getPrice();
     }
 }

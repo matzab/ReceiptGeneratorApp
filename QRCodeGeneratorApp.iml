@@ -7,5 +7,26 @@
     </content>
     <orderEntry type="jdk" jdkName="10" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/WebcamLib/webcam-capture-0.3.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/WebcamLib/libs/bridj-0.7.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/WebcamLib/libs/slf4j-api-1.7.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/QRCodeLib/core-3.3.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/QRCodeLib/javase-3.3.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
