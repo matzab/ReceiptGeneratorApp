@@ -5,6 +5,7 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import hkr.model.Product;
+import hkr.model.Receipt;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -15,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
@@ -125,6 +125,12 @@ public class MainViewController implements Initializable {
                 isRunning = false;
                 webcam.close();
                 break;
+            case "generate receipt":
+                Receipt receipt = new Receipt("Jons' botique", "The Shire", "Middle Earth", 666,
+                        333, 111,products,1000.00f);
+                System.out.println("hello");
+                System.out.println(receipt.formatReceipt());
+                break;
         }
 
     }
@@ -140,7 +146,6 @@ public class MainViewController implements Initializable {
         nameTableCol.setCellValueFactory(name -> name.getValue().nameProperty());
         priceTableCol.setCellValueFactory(price -> price.getValue().priceProperty());
     }
-
 
 
     class CaptureThread extends Thread {
@@ -184,5 +189,4 @@ public class MainViewController implements Initializable {
             }
         }
     }
-
 }
