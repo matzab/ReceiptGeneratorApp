@@ -29,6 +29,7 @@ public class Receipt {
 
     private float TAX_PERCENTAGE = 0.3f;
 
+
     public Receipt(String store, String location, String country, int receiptNumber, int terminalID, int cashierID, List<Product> products, float cashTotal) {
         this.store = store;
         this.location = location;
@@ -89,6 +90,7 @@ public class Receipt {
 
         return body.toString();
     }
+
 
     public String formatReceipt(){
         String header = String.format("%s%n%s%n%s%n Receipt number %04d  Cashier ID %04d %nTerminal %d %s %n------------------------------------ %n" +
