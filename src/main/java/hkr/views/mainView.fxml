@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="568.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hkr.controllers.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="568.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hkr.controllers.MainViewController">
    <children>
-      <Button layoutX="253.0" layoutY="100.0" mnemonicParsing="false" onAction="#pressButton" prefHeight="30.0" prefWidth="26.0" text="+">
+      <Button layoutX="14.0" layoutY="140.0" mnemonicParsing="false" onAction="#pressButton" prefHeight="30.0" prefWidth="75.0" text="Add">
          <font>
             <Font size="16.0" />
          </font></Button>
@@ -42,5 +42,10 @@
       <Button layoutX="526.0" layoutY="296.0" mnemonicParsing="false" onAction="#pressButton" text="stop" />
       <Label layoutX="376.0" layoutY="291.0" text="Video capture" />
       <Button layoutX="376.0" layoutY="368.0" mnemonicParsing="false" onAction="#pressButton" text="generate receipt" />
+      <Button fx:id="deleteProductButton" layoutX="171.0" layoutY="140.0" mnemonicParsing="false" onAction="#pressButton" prefHeight="30.0" prefWidth="87.0" text="Remove">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

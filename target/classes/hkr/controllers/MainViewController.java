@@ -24,10 +24,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 
 public class MainViewController implements Initializable {
     private final String FILE_PATH = "products.txt";
@@ -35,6 +32,7 @@ public class MainViewController implements Initializable {
     private List<Product> products = new ArrayList<>();
     private Webcam webcam;
     private boolean isRunning = false;
+
 
     @FXML
     private TextField nameTextField, priceTextField;
@@ -46,11 +44,12 @@ public class MainViewController implements Initializable {
     private TableColumn<Product, Number> priceTableCol;
     @FXML
     private ImageView qrCodeImageView;
+    @FXML
+    private Button deleteProductButton;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         try {
             if (file.exists()) {
                 readFile();
@@ -61,17 +60,22 @@ public class MainViewController implements Initializable {
             e.printStackTrace();
         }
 
-
+        deleteProductButton.setOnAction(event -> {
+            Product selectedItem = productTableView.getSelectionModel().getSelectedItem();
+            productTableView.getItems().remove(selectedItem);
+            products.remove(selectedItem);
+            try {
+                writeToFile(products);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        });
         displaySavedProducts();
-
-
     }
 
     private void writeToFile(List<Product> products) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter("products.txt"));
-
         for (Product p : products) {
-            //  System.out.println("Number written: " +p.toString() );
             pw.write(p.toString() + "\n");
         }
         pw.close();
@@ -83,6 +87,7 @@ public class MainViewController implements Initializable {
         while (sc.hasNext()) {
             String s = sc.nextLine();
             String[] prod = s.split(", ");
+
             products.add(new Product(prod[0], Float.valueOf(prod[1])));
         }
 
@@ -93,7 +98,7 @@ public class MainViewController implements Initializable {
         String value = ((Button) event.getSource()).getText();
 
         switch (value) {
-            case "+":
+            case "Add":
                 String name = nameTextField.getText();
                 String price = priceTextField.getText();
 
@@ -127,8 +132,7 @@ public class MainViewController implements Initializable {
                 break;
             case "generate receipt":
                 Receipt receipt = new Receipt("Jons' botique", "The Shire", "Middle Earth", 666,
-                        333, 111,products,1000.00f);
-                System.out.println("hello");
+                        333, 111, products, 1000.00f);
                 System.out.println(receipt.formatReceipt());
                 break;
         }

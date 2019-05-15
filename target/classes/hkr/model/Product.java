@@ -1,14 +1,5 @@
 package hkr.model;
 
-/* * * * * * * * * * * * * * * * * * * * * * * *
- *
- * Created by: matej
- * Time of the creation: 6:38 PM
- * Day of the creation: 4/30/2019
- *
- * * * * * * * * * * * * * * * * * * * * * * * *
- */
-
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 
