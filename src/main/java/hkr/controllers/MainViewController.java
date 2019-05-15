@@ -136,7 +136,6 @@ public class MainViewController implements Initializable {
                 System.out.println(receipt.formatReceipt());
                 break;
         }
-
     }
 
 
