@@ -50,15 +50,15 @@ public class Receipt {
         }
     }
 
-    private void calculateSubTotal() {
-        subTotal = total * TAX_PERCENTAGE;
+    public void calculateSubTotal() {
+        subTotal = total - saleTax;
     }
 
-    private void calculateSaleTax() {
-        saleTax = total - subTotal;
+    public void calculateSaleTax() {
+        saleTax = total * TAX_PERCENTAGE;
     }
 
-    private void calculateChange() {
+    public void calculateChange() {
 
         if (total <= cashTotal) {
             change = cashTotal - total;
@@ -83,6 +83,25 @@ public class Receipt {
         return body.toString();
     }
 
+    public float getSubTotal() {
+        return subTotal;
+    }
+
+    public float getSaleTax() {
+        return saleTax;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public float getCashTotal() {
+        return cashTotal;
+    }
+
+    public float getChange() {
+        return change;
+    }
 
     public String formatReceipt() {
         String header = String.format("%s%n%s%n%s%nReceipt number %04d  Cashier ID %04d %nTerminal %d %s %n------------------------------------ %n" +
