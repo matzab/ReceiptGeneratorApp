@@ -4,8 +4,6 @@ import org.junit.Assert;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-
 
 public class ReceiptTest {
     private ArrayList<Product> products = new ArrayList<>();
@@ -36,10 +34,10 @@ public class ReceiptTest {
         System.out.println("Calculate return change ... ");
         receipt.calculateChange();
         float expectedChange = 2.16f;
-        Assert.assertEquals(expectedChange, receipt.getChange(),0.00f);
+        Assert.assertEquals(expectedChange, receipt.getChange(), 0.00f);
     }
 
-    private void testDataInit(){
+    private void testDataInit() {
         products.add(new Product("potato", 1.39f));
         products.add(new Product("wax", 4.00f));
         products.add(new Product("brush", 7.23f));
