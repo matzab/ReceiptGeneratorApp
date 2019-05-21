@@ -4,8 +4,11 @@ import com.github.sarxos.webcam.Webcam;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.itextpdf.text.pdf.PdfWriter;
 import hkr.model.Product;
 import hkr.model.Receipt;
+import hkr.utils.DatabaseHelper;
+import hkr.utils.PDFFormater;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -22,6 +25,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -29,8 +33,10 @@ import java.util.*;
 public class MainViewController implements Initializable {
     private final String FILE_PATH = "products.txt";
     private final File file = new File(FILE_PATH);
+    private File pdfFile;
     private List<Product> products = new ArrayList<>();
     private Webcam webcam;
+    private DatabaseHelper databaseHelper;
     private boolean isRunning = false;
 
 
@@ -59,6 +65,8 @@ public class MainViewController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        databaseHelper = new DatabaseHelper();
 
         deleteProductButton.setOnAction(event -> {
             Product selectedItem = productTableView.getSelectionModel().getSelectedItem();
@@ -134,6 +142,7 @@ public class MainViewController implements Initializable {
                 Receipt receipt = new Receipt("Jons' botique", "The Shire", "Middle Earth", 666,
                         333, 111, products, 1000.00f);
                 System.out.println(receipt.formatReceipt());
+                pdfFile = PDFFormater.returnRecipePdfFile(receipt.formatReceipt(), "tmp.pdf");
                 break;
         }
     }
@@ -183,6 +192,15 @@ public class MainViewController implements Initializable {
                 if (result != null) {
                     isRunning = false;
                     System.out.println("QR code data is: " + result.getText());
+                    webcam.close();
+
+                    if (pdfFile != null){
+                        try {
+                            databaseHelper.uploadReceipt(result.getText(), Files.readAllBytes(pdfFile.toPath()));
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
                 try {

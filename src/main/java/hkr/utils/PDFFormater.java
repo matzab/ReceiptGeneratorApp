@@ -5,30 +5,27 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 
 public class PDFFormater {
 
-    public static void createRecipePdf(String path, String formattedReceipt) throws DocumentException, IOException {
+    public static File returnRecipePdfFile(String formattedReceipt, String tmpLoc)  {
+        try{
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(path));
+        PdfWriter.getInstance(document, new FileOutputStream(tmpLoc));
         document.open();
         Paragraph paragraph = new Paragraph();
         paragraph.add(formattedReceipt);
         document.add(paragraph);
-        document.close();
-    }
-
-    public static Document returnRecipePdfFile(String formattedReceipt, FileOutputStream fileOutputStream) throws DocumentException, IOException {
-        Document document = new Document();
-        PdfWriter.getInstance(document, fileOutputStream);
-        document.open();
-        Paragraph paragraph = new Paragraph();
-        paragraph.add(formattedReceipt);
-        document.add(paragraph);
-        document.close();
-        return document;
+        document.close();}
+        catch (DocumentException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return new File(tmpLoc);
     }
 }
