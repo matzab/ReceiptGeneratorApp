@@ -55,7 +55,7 @@ public class DatabaseHelper {
     public void uploadReceipt(String userid, byte[] fileContent){
 
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String receiptId = dateFormat.format(date);
 
         BlobId blobId = BlobId.of("digital-receipt-a6570.appspot.com", userid + "/" + receiptId + ".pdf");
