@@ -1,2 +1,0 @@
-potato, 30.0
-cucumber, 20.0

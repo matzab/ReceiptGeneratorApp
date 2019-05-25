@@ -4,7 +4,6 @@ import com.github.sarxos.webcam.Webcam;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
-import com.itextpdf.text.pdf.PdfWriter;
 import hkr.model.Product;
 import hkr.model.Receipt;
 import hkr.utils.DatabaseHelper;
@@ -15,9 +14,15 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,17 +33,19 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class MainViewController implements Initializable {
     private final String FILE_PATH = "products.txt";
-    private final File file = new File(FILE_PATH);
+    private File file = new File(FILE_PATH);
     private File pdfFile;
     private List<Product> products = new ArrayList<>();
     private Webcam webcam;
     private DatabaseHelper databaseHelper;
     private boolean isRunning = false;
-
 
     @FXML
     private TextField nameTextField, priceTextField;
@@ -52,21 +59,25 @@ public class MainViewController implements Initializable {
     private ImageView qrCodeImageView;
     @FXML
     private Button deleteProductButton;
-
+    @FXML
+    private AnchorPane mainAnchorPane;
+    @FXML
+    private StackPane stackPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        databaseHelper = new DatabaseHelper();
+        setDefWebcImg();
         try {
             if (file.exists()) {
                 readFile();
             } else {
-                // file does not exist
+                displayAlert("File does not exist");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        databaseHelper = new DatabaseHelper();
 
         deleteProductButton.setOnAction(event -> {
             Product selectedItem = productTableView.getSelectionModel().getSelectedItem();
@@ -74,11 +85,106 @@ public class MainViewController implements Initializable {
             products.remove(selectedItem);
             try {
                 writeToFile(products);
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        displaySavedProducts();
+
+        ObservableList<Product> productList = FXCollections.observableArrayList(products);
+        productTableView.setItems(productList);
+        nameTableCol.setCellValueFactory(name -> name.getValue().nameProperty());
+        priceTableCol.setCellValueFactory(price -> price.getValue().priceProperty());
+        setUpPopUp();
+    }
+
+    @FXML
+    public void pressButton(ActionEvent event) {
+        String value = ((Button) event.getSource()).getText();
+        switch (value) {
+            case "Add":
+                String name = nameTextField.getText();
+                String price = priceTextField.getText();
+
+                if (name.equals("")) {
+                    displayAlert("Name of the product cannot be empty");
+                    return;
+                }
+
+                if (!priceFormat(price)) {
+                    return;
+                }
+
+                Product product = new Product(name, Float.valueOf(price));
+                products.add(product);
+                productTableView.getItems().add(product);
+                try {
+                    appendProductToFile(product);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "Start":
+                // changeTop();
+
+
+                if (pdfFile == null) {
+                    displayAlert("Generate receipt before scanning the QR code!");
+                    return;
+                }
+
+                if (!isRunning && openWebcam()) {
+                    isRunning = true;
+                    new CaptureThread().start();
+                } else {
+                    displayAlert("Camera could not be opened");
+                }
+                break;
+            case "Stop":
+                if (isRunning) {
+                    isRunning = false;
+                    webcam.close();
+                }
+                setDefWebcImg();
+                break;
+            case "Generate receipt":
+                //TODO make more dynamic random receipts for testing purposes
+                Receipt receipt = new Receipt("Jons' botique", "The Shire", "Middle Earth", 666,
+                        333, 111, products, 1000.00f);
+                System.out.println(receipt.formatReceipt());
+                pdfFile = PDFFormater.returnRecipePdfFile(receipt.formatReceipt(), "tmp.pdf");
+                break;
+        }
+    }
+
+    private void setDefWebcImg(){
+        qrCodeImageView.setImage(new Image(getClass().getResourceAsStream("/drawable/webcam-placeholder.png")));
+
+    }
+
+    private boolean openWebcam() {
+        webcam = Webcam.getDefault();
+        if (webcam != null) {
+            return true;
+        }
+        return false;
+    }
+
+
+    private boolean priceFormat(String price) {
+        try {
+            Float.valueOf(price);
+            return true;
+        } catch (NumberFormatException e) {
+            displayAlert("Incorrect price input");
+            //e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void displayAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.showAndWait();
     }
 
     private void writeToFile(List<Product> products) throws IOException {
@@ -89,79 +195,62 @@ public class MainViewController implements Initializable {
         pw.close();
     }
 
+    private void appendProductToFile(Product product) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter("products.txt", true));
+        pw.write(product.toString() + "\n");
+        pw.close();
+    }
+
     private void readFile() throws IOException {
         Path p = Paths.get(FILE_PATH);
         Scanner sc = new Scanner(p);
         while (sc.hasNext()) {
             String s = sc.nextLine();
             String[] prod = s.split(", ");
-
             products.add(new Product(prod[0], Float.valueOf(prod[1])));
         }
-
     }
 
-    @FXML
-    public void pressButton(ActionEvent event) {
-        String value = ((Button) event.getSource()).getText();
+    private void changeTop() {
+        ObservableList<Node> children = this.stackPane.getChildren();
 
-        switch (value) {
-            case "Add":
-                String name = nameTextField.getText();
-                String price = priceTextField.getText();
-
-                if (priceFormat(price) || !name.equals("")) {
-                    products.add(new Product(name, Float.valueOf(price)));
-                    try {
-                        writeToFile(products);
-                        displaySavedProducts();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Incorrect input", ButtonType.OK);
-                    alert.showAndWait();
-                }
-                break;
-
-            case "start":
-                webcam = Webcam.getDefault();
-                webcam.open();
-                if (!isRunning) {
-                    isRunning = true;
-                    new CaptureThread().start();
-                } else {
-
-                }
-                break;
-            case "stop":
-                isRunning = false;
-                webcam.close();
-                break;
-            case "generate receipt":
-                Receipt receipt = new Receipt("Jons' botique", "The Shire", "Middle Earth", 666,
-                        333, 111, products, 1000.00f);
-                System.out.println(receipt.formatReceipt());
-                pdfFile = PDFFormater.returnRecipePdfFile(receipt.formatReceipt(), "tmp.pdf");
-                break;
+        if (children.size() > 1) {
+            //
+            Node topNode = children.get(children.size()-1);
+            topNode.toBack();
         }
     }
 
+    private void setUpPopUp(){
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefWidth(mainAnchorPane.getPrefWidth());
+        anchorPane.setPrefHeight(mainAnchorPane.getPrefHeight());
+        anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.25)");
+        VBox box = new VBox();
+        box.getStylesheets().add("/styles/mainSceneStyleSheet.css");
+        box.setAlignment(Pos.BASELINE_CENTER);
+        box.setPrefHeight(256);
+        box.setPrefWidth(256);
+        box.setLayoutX(172);
+        box.setLayoutY(185);
+        box.setStyle("-fx-background-color: white");
+        Text text = new Text("Receipt successfully sent");
+        Button button = new Button("OK");
+        button.setOnAction(event -> {
+            changeTop();
+        });
 
-    private boolean priceFormat(String price) {
-        return price.matches("[-+]?[0-9]*\\.?[0-9]+");
-    }
+        //TODO add animations
 
-    private void displaySavedProducts() {
-        ObservableList<Product> productList = FXCollections.observableArrayList(products);
-        productTableView.setItems(productList);
-        nameTableCol.setCellValueFactory(name -> name.getValue().nameProperty());
-        priceTableCol.setCellValueFactory(price -> price.getValue().priceProperty());
+
+        box.getChildren().add(text);
+        box.getChildren().add(button);
+        anchorPane.getChildren().add(box);
+        stackPane.getChildren().add(0,anchorPane);
     }
 
 
     class CaptureThread extends Thread {
-
         @Override
         public void run() {
             super.run();
@@ -178,8 +267,6 @@ public class MainViewController implements Initializable {
                     Image capture = SwingFXUtils.toFXImage(image, null);
                     qrCodeImageView.setImage(capture);
 
-                    //  ImageIO.write(webcam.getImage(), "PNG", new File("hello-world.png"));
-
                     LuminanceSource source = new BufferedImageLuminanceSource(image);
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                     try {
@@ -191,13 +278,17 @@ public class MainViewController implements Initializable {
 
                 if (result != null) {
                     isRunning = false;
-                    System.out.println("QR code data is: " + result.getText());
                     webcam.close();
 
-                    if (pdfFile != null){
+                    if (pdfFile != null) {
                         try {
                             databaseHelper.uploadReceipt(result.getText(), Files.readAllBytes(pdfFile.toPath()));
-                        }catch (IOException e){
+                            if (pdfFile.delete()) {
+                            } else {
+                                displayAlert("File does not exist");
+                            }
+                            changeTop();
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
