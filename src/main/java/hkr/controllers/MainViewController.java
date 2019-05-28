@@ -165,6 +165,7 @@ public class MainViewController implements Initializable {
     private boolean openWebcam() {
         webcam = Webcam.getDefault();
         if (webcam != null) {
+            webcam.open();
             return true;
         }
         return false;
